@@ -1,62 +1,299 @@
+/* Définir les variables des couleurs principales */
+:root {
+    --vert-principal: #2d8659;
+    --vert-secondaire: #52b788;
+    --vert-clair: #95d5b2;
+    --bleu-accent: #0077b6;
+    --texte-fonce: #1b4332;
+    --fond-clair: #f1faee;
+}
+
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: ##f4f4f4;
+    background-color: var(--fond-clair);
 }
 
-header {
-    background: ##4CAF50;
+/* ===== La barre de navigation ===== */
+.navbar {
+    background: linear-gradient(135deg, var(--vert-principal) 0%, var(--vert-secondaire) 100%);
+    padding: 15px 0;
+}
+
+.navbar-brand {
+    font-size: 28px;
+    font-weight: bold;
+    color: white !important;
+}
+
+.nav-link {
+    color: white !important;
+    margin: 0 15px;
+    font-size: 18px;
+}
+
+.nav-link:hover {
+    opacity: 0.8;
+}
+
+/* ===== Partie de l'en-tête avec image) ===== */
+.hero-section {
+    background: linear-gradient(rgba(45, 134, 89, 0.8), rgba(82, 183, 136, 0.8)),
+        url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600') center/cover;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
-    padding: 20px;
     text-align: center;
+    padding: 60px 20px;
 }
 
-##search-form {
-    margin: 20px;
-    text-align: center;
+.hero-titre {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
-input[type="text"] {
-    padding: 10px;
-    width: 200px;
+.hero-soustitre {
+    font-size: 24px;
+    margin-bottom: 30px;
 }
 
-button {
-    padding: 10px 20px;
-    background: ##007BFF;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-button:hover {
-    background: ##0056b3;
-}
-
-##results {
-    margin: 20px;
-    text-align: center;
-}
-
-.ticket {
-    border: 1px solid ##ccc;
-    padding: 10px;
-    margin: 10px;
+/* ===== SECTION DE RECHERCHE ===== */
+.recherche {
     background: white;
-    transition: transform 0.2s;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-top: -60px;
+    position: relative;
 }
 
-.ticket:hover {
-    transform: scale(1.05);
+/* Boutons pour choisir le type de transport */
+.choix-transport {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
 }
 
-.hidden {
-    display: none;
+.choix {
+    flex: 1;
+    min-width: 140px;
+    padding: 15px 20px;
+    border: 2px solid var(--vert-clair);
+    background: white;
+    color: var(--vert-principal);
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
 }
 
-##message {
-    margin-top: 10px;
-    color: red;
+.choix:hover {
+    background: var(--vert-clair);
+}
+
+.choix.active {
+    background: var(--vert-principal);
+    color: white;
+}
+
+/* Champs de formulaire */
+.form-control,
+.form-select {
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--vert-secondaire);
+    box-shadow: 0 0 0 0.2rem rgba(82, 183, 136, 0.25);
+}
+
+/* Bouton de recherche */
+.btn-search {
+    background: linear-gradient(135deg, var(--vert-principal) 0%, var(--vert-secondaire) 100%);
+    color: white;
+    padding: 12px 40px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-search:hover {
+    opacity: 0.9;
+}
+
+/* ===== SECTION DES OFFRES ===== */
+.section-offre {
+    padding: 60px 0;
+}
+
+.section-titre {
+    text-align: center;
+    font-size: 36px;
+    color: var(--texte-fonce);
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.section-soustitre {
+    text-align: center;
+    color: #666;
+    margin-bottom: 40px;
+    font-size: 18px;
+}
+
+/* Carte d'offre */
+.carte {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    background: white;
+    transition: transform 0.3s ease;
+}
+
+/* Effet au survol de la souris */
+.carte:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(45, 134, 89, 0.2);
+}
+
+/* En-tête de la carte */
+.headerOffre {
+    background: linear-gradient(135deg, var(--vert-principal) 0%, var(--vert-secondaire) 100%);
+    color: white;
+    padding: 25px;
+    text-align: center;
+}
+
+.icone {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.titre {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Corps de la carte */
+.bodyOffre {
+    padding: 25px;
+}
+
+.prix {
+    font-size: 32px;
+    color: var(--vert-principal);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.ancienPrix {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+/* Badge de promotion */
+.promoBadge {
+    display: inline-block;
+    background: #ff6b6b;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Code promo */
+.promoCode {
+    background: #f0f0f0;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: var(--vert-principal);
+    font-family: monospace;
+    font-size: 16px;
+}
+
+/* Bouton réserver */
+.btn-reserve {
+    background: linear-gradient(135deg, var(--bleu-accent) 0%, #0096c7 100%);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    width: 100%;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-reserve:hover {
+    opacity: 0.9;
+    color: white;
+}
+
+/* ===== SECTION AVANTAGES ===== */
+.fonct {
+    background: white;
+    padding: 60px 0;
+}
+
+.fonct-boite {
+    text-align: center;
+    padding: 30px;
+}
+
+.fonct-icone {
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.fonct-titre {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--texte-fonce);
+    margin-bottom: 15px;
+}
+
+/* ===== pied de page ===== */
+footer {
+    background: linear-gradient(135deg, var(--vert-principal) 0%, var(--vert-secondaire) 100%);
+    color: white;
+    padding: 40px 0 20px;
+    margin-top: 60px;
+    text-align: center;
+}
+
+/* ===== RESPONSIVE (adaptation mobile) ===== */
+@media (max-width: 768px) {
+    .hero-titre {
+        font-size: 32px;
+    }
+
+    .hero-soustitre {
+        font-size: 18px;
+    }
+
+    .recherche {
+        padding: 20px;
+    }
+
+    .choix {
+        font-size: 14px;
+    }
 }
