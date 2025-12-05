@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLAN B - Comparateur de Transport</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* ===== COULEURS DU SITE ===== */
+        /* Ces variables définissent les couleurs principales */
+        :root {
+            --vert-principal: #2d8659;    /* Vert foncé */
+            --vert-secondaire: #52b788;   /* Vert moyen */
+            --vert-clair: #95d5b2;        /* Vert clair */
+            --bleu-accent: #0077b6;       /* Bleu pour les boutons */
+            --texte-fonce: #1b4332;       /* Texte foncé */
+            --fond-clair: #f1faee;        /* Fond de page */
+        }
+
+        /* ===== STYLE GÉNÉRAL ===== */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--fond-clair);
+        }
+
+        /* ===== BARRE DE NAVIGATION ===== */
+        .navbar {
+            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--vert-secondaire) 100%);
+            padding: 15px 0;
+        }
+
+        .navbar-brand {
+            font-size: 28px;
+            font-weight: bold;
+            color: white !important;
+        }
+
+        .nav-link {
+            color: white !important;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        .nav-link:hover {
+            opacity: 0.8;
+        }
+
+        /* ===== SECTION HERO (en-tête avec image) ===== */
+        .hero-section {
+            background: linear-gradient(rgba(45, 134, 89, 0.8), rgba(82, 183, 136, 0.8)),
+                        url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600') center/cover;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        /* ===== SECTION DE RECHERCHE ===== */
+        .search-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: -60px;
+            position: relative;
+        }
+
+        /* Boutons pour choisir le type de transport */
+        .search-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .search-tab {
+            flex: 1;
+            min-width: 140px;
+            padding: 15px 20px;
+            border: 2px solid var(--vert-clair);
+            background: white;
+            color: var(--vert-principal);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .search-tab:hover {
+            background: var(--vert-clair);
+        }
+
+        .search-tab.active {
+            background: var(--vert-principal);
+            color: white;
+        }
+
+        /* Champs de formulaire */
+        .form-control, .form-select {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--vert-secondaire);
+            box-shadow: 0 0 0 0.2rem rgba(82, 183, 136, 0.25);
+        }
+
+        /* Bouton de recherche */
+        .btn-search {
+            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--vert-secondaire) 100%);
+            color: white;
+            padding: 12px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-search:hover {
+            opacity: 0.9;
+        }
+
+        /* ===== SECTION DES OFFRES ===== */
+        .offers-section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            color: var(--texte-fonce);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 18px;
+        }
+
+        /* Carte d'offre */
+        .offer-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            background: white;
+            transition: transform 0.3s ease;
+        }
+
+        /* Effet au survol de la souris */
+        .offer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(45, 134, 89, 0.2);
+        }
+
+        /* En-tête de la carte */
+        .offer-header {
+            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--vert-secondaire) 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .offer-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .offer-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Corps de la carte */
+        .offer-body {
+            padding: 25px;
+        }
+
+        .price-tag {
+            font-size: 32px;
+            color: var(--vert-principal);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+
+        /* Badge de promotion */
+        .promo-badge {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Code promo */
+        .promo-code {
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            color: var(--vert-principal);
+            font-family: monospace;
+            font-size: 16px;
+        }
+
+        /* Bouton réserver */
+        .btn-reserve {
+            background: linear-gradient(135deg, var(--bleu-accent) 0%, #0096c7 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            width: 100%;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-reserve:hover {
+            opacity: 0.9;
+            color: white;
+        }
+
+        /* ===== SECTION AVANTAGES ===== */
+        .features-section {
+            background: white;
+            padding: 60px 0;
+        }
+
+        .feature-box {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .feature-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--texte-fonce);
+            margin-bottom: 15px;
+        }
+
+        /* ===== FOOTER (pied de page) ===== */
+        footer {
+            background: linear-gradient(135deg, var(--vert-principal) 0%, var(--vert-secondaire) 100%);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        /* ===== RESPONSIVE (adaptation mobile) ===== */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 32px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .search-section {
+                padding: 20px;
+            }
+
+            .search-tab {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== BARRE DE NAVIGATION ===== -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <!-- Logo du site -->
+            <a class="navbar-brand" href="#accueil">🌱 PLAN B</a>
+            
+            <!-- Bouton menu mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Menu de navigation -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#accueil">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#offres">Offres</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#avantages">Avantages</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== SECTION HERO (En-tête avec image de fond) ===== -->
+    <section class="hero-section" id="accueil">
+        <div>
+            <h1 class="hero-title">Voyagez Mieux, Payez Moins</h1>
+            <p class="hero-subtitle">Comparez et trouvez les meilleurs tarifs</p>
+        </div>
+    </section>
+
+    <!-- ===== SECTION DE RECHERCHE ===== -->
+    <div class="container">
+        <div class="search-section">
+            <!-- Onglets pour choisir le type de transport -->
+            <div class="search-tabs">
+                <button class="search-tab active" onclick="changerTransport('avion')">
+                    ✈️ Avion
+                </button>
+                <button class="search-tab" onclick="changerTransport('train')">
+                    🚄 Train
+                </button>
+                <button class="search-tab" onclick="changerTransport('bus')">
+                    🚌 Bus
+                </button>
+                <button class="search-tab" onclick="changerTransport('covoiturage')">
+                    🚗 Covoiturage
+                </button>
+            </div>
+
+            <!-- Formulaire de recherche -->
+            <form id="searchForm" onsubmit="rechercherVoyage(event)">
+                <div class="row g-3">
+                    <!-- Ville de départ -->
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Départ</label>
+                        <input type="text" class="form-control" id="depart" placeholder="Paris" required>
+                    </div>
+                    
+                    <!-- Ville d'arrivée -->
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Destination</label>
+                        <input type="text" class="form-control" id="destination" placeholder="Lyon" required>
+                    </div>
+                    
+                    <!-- Date du voyage -->
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold">Date</label>
+                        <input type="date" class="form-control" id="date" required>
+                    </div>
+                    
+                    <!-- Nombre de passagers -->
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold">Passagers</label>
+                        <select class="form-select" id="passagers">
+                            <option value="1">1 passager</option>
+                            <option value="2">2 passagers</option>
+                            <option value="3">3 passagers</option>
+                            <option value="4">4+ passagers</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Bouton rechercher -->
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold">&nbsp;</label>
+                        <button type="submit" class="btn btn-search w-100">
+                            Rechercher
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== SECTION DES OFFRES ===== -->
+    <section class="offers-section" id="offres">
+        <div class="container">
+            <h2 class="section-title">Offres du Moment</h2>
+            <p class="section-subtitle">Profitez de nos codes promo exclusifs</p>
+
+            <!-- Conteneur des cartes d'offres -->
+            <div class="row g-4" id="offersContainer">
+                <!-- Les offres seront ajoutées ici par JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SECTION AVANTAGES ===== -->
+    <section class="features-section" id="avantages">
+        <div class="container">
+            <h2 class="section-title">Pourquoi Choisir PLAN B ?</h2>
+            
+            <div class="row g-4 mt-4">
+                <!-- Avantage 1 -->
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">💰</div>
+                        <h3 class="feature-title">Meilleurs Prix</h3>
+                        <p>Comparez les tarifs de toutes les compagnies en un clic</p>
+                    </div>
+                </div>
+                
+                <!-- Avantage 2 -->
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">🎟️</div>
+                        <h3 class="feature-title">Codes Promo Exclusifs</h3>
+                        <p>Économisez jusqu'à 30% avec nos réductions</p>
+                    </div>
+                </div>
+                
+                <!-- Avantage 3 -->
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">🌍</div>
+                        <h3 class="feature-title">Voyage Écologique</h3>
+                        <p>Transport éco-responsable privilégié</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER (pied de page) ===== -->
+    <footer>
+        <div class="container">
+            <h3>🌱 PLAN B</h3>
+            <p>Votre comparateur de transport éco-responsable</p>
+            <p class="mt-4">&copy; 2024 PLAN B. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ===== DONNÉES DES OFFRES =====
+        // Tableau contenant toutes les offres avec leurs informations
+        const offres = [
+            // Offres AVION
+            {
+                type: 'avion',
+                compagnie: 'Air France',
+                icone: '✈️',
+                trajet: 'Paris → Marseille',
+                prix: '89€',
+                ancienPrix: '120€',
+                codePromo: 'PLANB25',
+                reduction: '-25%',
+                lien: 'https://www.airfrance.fr'
+            },
+            {
+                type: 'avion',
+                compagnie: 'Ryanair',
+                icone: '✈️',
+                trajet: 'Paris → Barcelone',
+                prix: '45€',
+                ancienPrix: '65€',
+                codePromo: 'PLANB30',
+                reduction: '-30%',
+                lien: 'https://www.ryanair.com'
+            },
+            // Offres TRAIN
+            {
+                type: 'train',
+                compagnie: 'SNCF',
+                icone: '🚄',
+                trajet: 'Paris → Lyon',
+                prix: '35€',
+                ancienPrix: '50€',
+                codePromo: 'PLANB15',
+                reduction: '-15%',
+                lien: 'https://www.sncf.com'
+            },
+            {
+                type: 'train',
+                compagnie: 'SNCF TGV',
+                icone: '🚄',
+                trajet: 'Lyon → Nice',
+                prix: '55€',
+                ancienPrix: '75€',
+                codePromo: 'PLANB20',
+                reduction: '-20%',
+                lien: 'https://www.sncf.com'
+            },
+            // Offres BUS
+            {
+                type: 'bus',
+                compagnie: 'FlixBus',
+                icone: '🚌',
+                trajet: 'Paris → Amsterdam',
+                prix: '25€',
+                ancienPrix: '35€',
+                codePromo: 'PLANB10',
+                reduction: '-10%',
+                lien: 'https://www.flixbus.fr'
+            },
+            {
+                type: 'bus',
+                compagnie: 'BlaBlaBus',
+                icone: '🚌',
+                trajet: 'Paris → Bruxelles',
+                prix: '15€',
+                ancienPrix: '22€',
+                codePromo: 'PLANB7',
+                reduction: '-7€',
+                lien: 'https://www.blablabus.com'
+            },
+            // Offres COVOITURAGE
+            {
+                type: 'covoiturage',
+                compagnie: 'BlaBlaCar',
+                icone: '🚗',
+                trajet: 'Paris → Bordeaux',
+                prix: '18€',
+                ancienPrix: '25€',
+                codePromo: 'PLANB7',
+                reduction: '-7€',
+                lien: 'https://www.blablacar.fr'
+            },
+            {
+                type: 'covoiturage',
+                compagnie: 'BlaBlaCar',
+                icone: '🚗',
+                trajet: 'Lyon → Marseille',
+                prix: '12€',
+                ancienPrix: '18€',
+                codePromo: 'PLANB6',
+                reduction: '-6€',
+                lien: 'https://www.blablacar.fr'
+            }
+        ];
+
+        // Variable pour mémoriser le type de transport sélectionné
+        let transportActuel = 'avion';
+
+        // ===== FONCTION POUR CHANGER DE TYPE DE TRANSPORT =====
+        function changerTransport(type) {
+            // Retirer la classe 'active' de tous les onglets
+            const tousLesOnglets = document.querySelectorAll('.search-tab');
+            tousLesOnglets.forEach(onglet => {
+                onglet.classList.remove('active');
+            });
+
+            // Ajouter la classe 'active' à l'onglet cliqué
+            event.target.classList.add('active');
+
+            // Mettre à jour le type de transport actuel
+            transportActuel = type;
+
+            // Afficher les offres correspondantes
+            afficherOffres(type);
+        }
+
+        // ===== FONCTION POUR AFFICHER LES OFFRES =====
+        function afficherOffres(type) {
+            // Récupérer le conteneur des offres
+            const conteneur = document.getElementById('offersContainer');
+            
+            // Filtrer les offres selon le type sélectionné
+            const offresFiltrees = offres.filter(offre => offre.type === type);
+            
+            // Créer le HTML pour chaque offre
+            let html = '';
+            offresFiltrees.forEach(offre => {
+                html += `
+                    <div class="col-md-4">
+                        <div class="offer-card">
+                            <!-- En-tête de la carte -->
+                            <div class="offer-header">
+                                <div class="offer-icon">${offre.icone}</div>
+                                <h3 class="offer-title">${offre.compagnie}</h3>
+                            </div>
+                            
+                            <!-- Corps de la carte -->
+                            <div class="offer-body">
+                                <h4 class="mb-3">${offre.trajet}</h4>
+                                
+                                <!-- Badge de réduction -->
+                                <div class="promo-badge">${offre.reduction}</div>
+                                
+                                <!-- Prix -->
+                                <div class="price-tag">
+                                    ${offre.prix}
+                                    <span class="old-price">${offre.ancienPrix}</span>
+                                </div>
+                                
+                                <!-- Code promo -->
+                                <div class="mb-3">
+                                    <strong>Code promo:</strong>
+                                    <span class="promo-code">${offre.codePromo}</span>
+                                </div>
+                                
+                                <!-- Bouton réserver -->
+                                <a href="${offre.lien}" target="_blank" class="btn btn-reserve">
+                                    Réserver maintenant →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            // Insérer le HTML dans le conteneur
+            conteneur.innerHTML = html;
+        }
+
+        // ===== FONCTION POUR RECHERCHER UN VOYAGE =====
+        function rechercherVoyage(event) {
+            // Empêcher le rechargement de la page
+            event.preventDefault();
+            
+            // Récupérer les valeurs du formulaire
+            const depart = document.getElementById('depart').value;
+            const destination = document.getElementById('destination').value;
+            const date = document.getElementById('date').value;
+            const passagers = document.getElementById('passagers').value;
+            
+            // Afficher un message
+            alert(`Recherche de ${transportActuel} de ${depart} à ${destination} pour ${passagers} passager(s) le ${date}`);
+            
+            // Faire défiler la page vers les offres
+            document.getElementById('offres').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ===== INITIALISATION AU CHARGEMENT DE LA PAGE =====
+        // Définir la date minimum à aujourd'hui
+        const aujourdHui = new Date().toISOString().split('T')[0];
+        document.getElementById('date').setAttribute('min', aujourdHui);
+
+        // Afficher les offres d'avion par défaut
+        afficherOffres('avion');
+    </script>
+</body>
+</html>

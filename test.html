@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PLAN B - Comparez et réservez vos billets de transport avec des codes promo exclusifs">
+    <title>PLAN B - Comparateur de Transport Écologique</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #2d8659;
+            --secondary-green: #52b788;
+            --light-green: #95d5b2;
+            --accent-blue: #0077b6;
+            --dark-text: #1b4332;
+            --light-bg: #f1faee;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+        }
+
+        /* Navbar personnalisée */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-link {
+            font-size: 1.1rem;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+            color: #fff !important;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, rgba(45, 134, 89, 0.9) 0%, rgba(82, 183, 136, 0.9) 100%),
+                        url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600') center/cover;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Search Form */
+        .search-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-top: -80px;
+            position: relative;
+            z-index: 10;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .search-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .search-tab {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 25px;
+            border: 2px solid var(--light-green);
+            background: white;
+            color: var(--primary-green);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .search-tab:hover {
+            background: var(--light-green);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(45, 134, 89, 0.2);
+        }
+
+        .search-tab.active {
+            background: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+        }
+
+        .form-control, .form-select {
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-green);
+            box-shadow: 0 0 0 0.2rem rgba(82, 183, 136, 0.25);
+        }
+
+        .btn-search {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            padding: 15px 50px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(45, 134, 89, 0.3);
+        }
+
+        .btn-search:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(45, 134, 89, 0.4);
+        }
+
+        /* Offers Section */
+        .offers-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--dark-text);
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 50px;
+            font-size: 1.2rem;
+        }
+
+        .offer-card {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            background: white;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(45, 134, 89, 0.2);
+        }
+
+        .offer-header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offer-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .offer-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .offer-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .offer-body {
+            padding: 30px;
+        }
+
+        .price-tag {
+            font-size: 2rem;
+            color: var(--primary-green);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .promo-badge {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            animation: pulse-badge 2s infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn-reserve {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, #0096c7 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reserve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 119, 182, 0.3);
+            color: white;
+        }
+
+        /* Features Section */
+        .features-section {
+            background: white;
+            padding: 80px 0;
+        }
+
+        .feature-box {
+            text-align: center;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            color: var(--secondary-green);
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--dark-text);
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            text-align: center;
+        }
+
+        /* Modal personnalisé */
+        .modal-content {
+            border-radius: 20px;
+            border: none;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            border: none;
+            padding: 30px;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .search-section {
+                padding: 20px;
+                margin-top: -50px;
+            }
+
+            .search-tab {
+                font-size: 0.9rem;
+                padding: 10px 15px;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#accueil">🌱 PLAN B</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#accueil">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#offres">Offres</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="accueil">
+        <div class="hero-content">
+            <h1 class="hero-title">Voyagez Mieux, Payez Moins</h1>
+            <p class="hero-subtitle">Comparez et trouvez les meilleurs tarifs avec des codes promo exclusifs</p>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <div class="container">
+        <div class="search-section">
+            <div class="search-tabs">
+                <button class="search-tab active" data-type="avion">
+                    ✈️ Avion
+                </button>
+                <button class="search-tab" data-type="train">
+                    🚄 Train
+                </button>
+                <button class="search-tab" data-type="bus">
+                    🚌 Bus
+                </button>
+                <button class="search-tab" data-type="covoiturage">
+                    🚗 Covoiturage
+                </button>
+            </div>
+
+            <form id="searchForm">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Départ</label>
+                        <input type="text" class="form-control" id="depart" placeholder="Ville de départ" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Destination</label>
+                        <input type="text" class="form-control" id="destination" placeholder="Ville d'arrivée" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold">Date</label>
+                        <input type="date" class="form-control" id="date" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold">Passagers</label>
+                        <select class="form-select" id="passagers">
+                            <option value="1">1 passager</option>
+                            <option value="2">2 passagers</option>
+                            <option value="3">3 passagers</option>
+                            <option value="4">4+ passagers</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label fw-bold">&nbsp;</label>
+                        <button type="submit" class="btn btn-search w-100">
+                            Rechercher
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Offers Section -->
+    <section class="offers-section" id="offres">
+        <div class="container">
+            <h2 class="section-title">Offres du Moment</h2>
+            <p class="section-subtitle">Profitez de nos codes promo exclusifs</p>
+
+            <div class="row g-4" id="offersContainer">
+                <!-- Les offres seront générées dynamiquement -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Pourquoi Choisir PLAN B ?</h2>
+            <div class="row g-4 mt-4">
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">💰</div>
+                        <h3 class="feature-title">Meilleurs Prix</h3>
+                        <p>Comparez instantanément les tarifs de toutes les compagnies</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">🎟️</div>
+                        <h3 class="feature-title">Codes Promo Exclusifs</h3>
+                        <p>Économisez jusqu'à 30% avec nos réductions partenaires</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">🌍</div>
+                        <h3 class="feature-title">Voyage Écologique</h3>
+                        <p>Options de transport éco-responsables privilégiées</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <h3>🌱 PLAN B</h3>
+                <p>Votre comparateur de transport éco-responsable</p>
+                <p class="mt-4">&copy; 2024 PLAN B. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Contact -->
+    <div class="modal fade" id="contactModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Contactez-nous</h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="contactForm">
+                        <div class="mb-3">
+                            <label class="form-label">Nom</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-control" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-search w-100">Envoyer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Données des offres
+        const offers = [
+            {
+                type: 'avion',
+                company: 'Air France',
+                icon: '✈️',
+                destination: 'Paris → Marseille',
+                price: '89€',
+                oldPrice: '120€',
+                promo: 'PLANB25',
+                reduction: '-25%',
+                link: 'https://www.airfrance.fr'
+            },
+            {
+                type: 'avion',
+                company: 'Ryanair',
+                icon: '✈️',
+                destination: 'Paris → Barcelone',
+                price: '45€',
+                oldPrice: '65€',
+                promo: 'PLANB30',
+                reduction: '-30%',
+                link: 'https://www.ryanair.com'
+            },
+            {
+                type: 'train',
+                company: 'SNCF',
+                icon: '🚄',
+                destination: 'Paris → Lyon',
+                price: '35€',
+                oldPrice: '50€',
+                promo: 'PLANB15',
+                reduction: '-15%',
+                link: 'https://www.sncf.com'
+            },
+            {
+                type: 'train',
+                company: 'SNCF',
+                icon: '🚄',
+                destination: 'Lyon → Nice',
+                price: '55€',
+                oldPrice: '75€',
+                promo: 'PLANB20',
+                reduction: '-20%',
+                link: 'https://www.sncf.com'
+            },
+            {
+                type: 'bus',
+                company: 'FlixBus',
+                icon: '🚌',
+                destination: 'Paris → Amsterdam',
+                price: '25€',
+                oldPrice: '35€',
+                promo: 'PLANB10',
+                reduction: '-10%',
+                link: 'https://www.flixbus.fr'
+            },
+            {
+                type: 'covoiturage',
+                company: 'BlaBlaCar',
+                icon: '🚗',
+                destination: 'Paris → Bordeaux',
+                price: '18€',
+                oldPrice: '25€',
+                promo: 'PLANB7',
+                reduction: '-7€',
+                link: 'https://www.blablacar.fr'
+            }
+        ];
+
+        let currentType = 'avion';
+
+        // Gestion des onglets
+        document.querySelectorAll('.search-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentType = this.dataset.type;
+                filterOffers(currentType);
+            });
+        });
+
+        // Filtrer et afficher les offres
+        function filterOffers(type) {
+            const container = document.getElementById('offersContainer');
+            const filteredOffers = offers.filter(offer => offer.type === type);
+            
+            container.innerHTML = filteredOffers.map(offer => `
+                <div class="col-md-4">
+                    <div class="offer-card">
+                        <div class="offer-header">
+                            <div class="offer-icon">${offer.icon}</div>
+                            <h3 class="offer-title">${offer.company}</h3>
+                        </div>
+                        <div class="offer-body">
+                            <h4 class="mb-3">${offer.destination}</h4>
+                            <div class="promo-badge">${offer.reduction}</div>
+                            <div class="price-tag">
+                                ${offer.price}
+                                <small style="text-decoration: line-through; color: #999; font-size: 1.2rem; margin-left: 10px;">${offer.oldPrice}</small>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Code promo:</strong>
+                                <code style="background: #f0f0f0; padding: 5px 10px; border-radius: 5px; font-weight: bold; color: var(--primary-green);">${offer.promo}</code>
+                            </div>
+                            <a href="${offer.link}" target="_blank" class="btn btn-reserve">
+                                Réserver maintenant →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialiser avec les offres d'avion
+        filterOffers('avion');
+
+        // Définir la date minimum à aujourd'hui
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').setAttribute('min', today);
+
+        // Gestion du formulaire de recherche
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const depart = document.getElementById('depart').value;
+            const destination = document.getElementById('destination').value;
+            const date = document.getElementById('date').value;
+            const passagers = document.getElementById('passagers').value;
+            
+            // Animation de chargement
+            const button = e.target.querySelector('button[type="submit"]');
+            const originalText = button.textContent;
+            button.innerHTML = '<span class="loading"></span> Recherche...';
+            button.disabled = true;
+            
+            // Simuler une recherche
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.disabled = false;
+                
+                // Faire défiler vers les offres
+                document.getElementById('offres').scrollIntoView({ behavior: 'smooth' });
+                
+                // Afficher un message
+                alert(`Recherche de ${currentType} de ${depart} à ${destination} pour ${passagers} passager(s) le ${date}`);
+            }, 1500);
+        });
+
+        // Gestion du formulaire de contact
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Message envoyé ! Nous vous répondrons rapidement.');
+            bootstrap.Modal.getInstance(document.getElementById('contactModal')).hide();
+            this.reset();
+        });
+
+        // Animation au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Appliquer l'animation aux cartes
+        setTimeout(() => {
+            document.querySelectorAll('.offer-card, .feature-box').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        }, 100);
+    </script>
+</body>
+</html>
